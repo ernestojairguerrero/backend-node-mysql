@@ -5,7 +5,7 @@ const { validarJWT } = require('../middlewares/validator.jwt');
 
 const router = Router();
 
-router.post('/login', validarJWT, loginUser);
+router.post('/login', loginUser);
 //validarJWT
 router.post('/add', validarJWT, registerUser);
 
