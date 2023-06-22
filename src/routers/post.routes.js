@@ -6,18 +6,18 @@ const { listPost, addPost, updatePost, listPostId, deletePost, aporbarPost, deap
 
 const router = Router();
 
-router.get('/list', validarJWT, listPost);
+router.get('/list', listPost);
 
-router.get('/list-id', validarJWT, listPostId);
+router.get('/list-id', listPostId);
 //validarJWT
-router.post('/add', validarJWT, addPost);
+router.post('/add', addPost);
 
-router.put('/update', validarJWT, updatePost);
+router.put('/update', updatePost);
 
-router.delete('/delete', validarJWT, deletePost);
+router.delete('/delete', deletePost);
 
-router.put('/desaprobar', validarJWT, deaporbarPost);
+router.put('/desaprobar', deaporbarPost);
 
-router.put('/aprobar', validarJWT, aporbarPost);
+router.put('/aprobar', aporbarPost);
 
 module.exports = router;

@@ -40,24 +40,30 @@ const addPost = async (req, res) => {
 }
 
 
-// Listar posts por ID
+// Listar posts por uuid
 const listPostId = async (req, res) => {
 
-  const { id } = req.query;
+
+  const { uuid } = req.query;
+
+  console.log(uuid)
+
 
   try {
 
 
     // Verificar si id es un número
-    if (isNaN(id)) {
+    if (uuid.length !== 36) {
       return res.status(400).json({
         success: false,
         status: 400,
-        message: 'El ID ingresado no es un correcto',
+        message: 'El uuid ingresado no es un correcto',
       });
     }
 
-    const [post] = await pool.query('SELECT * FROM posts WHERE id = ?', [id]);
+    const [post] = await pool.query('SELECT * FROM posts WHERE status = 1 AND uuid = ?', [uuid]);
+
+    console.log(post)
 
     if (!post || post.length === 0) {
       return res.status(404).json({
@@ -71,7 +77,7 @@ const listPostId = async (req, res) => {
       success: true,
       status: 200,
       message: 'Posts obtenido correctamente',
-      posts: post[0],
+      posts: post,
     });
   } catch (error) {
     return res.status(500).json({
@@ -87,7 +93,7 @@ const listPostId = async (req, res) => {
 // Listar posts
 const listPost = async (req, res) => {
   try {
-    const [posts] = await pool.query('SELECT * FROM posts');
+    const [posts] = await pool.query('SELECT * FROM posts WHERE status = 1');
 
     if (!posts || posts.length === 0) {
       return res.status(200).json({
@@ -190,7 +196,7 @@ const deletePost = async (req, res) => {
     });
   }
 
-  await pool.query('DELETE FROM posts WHERE WHERE id = ?', [id]);
+  await pool.query('DELETE FROM posts WHERE id = ?', [id]);
 
   return res.status(200).json({
     success: true,

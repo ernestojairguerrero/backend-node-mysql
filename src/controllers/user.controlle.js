@@ -49,9 +49,63 @@ const loginUser = async (req, res) => {
         name: user[0].name,
         last_name: user[0].last_name,
         email: user[0].email,
-        uuid: user[0].uuid,
-
       },
+      uuid: user[0].uuid,
+      token: token,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      status: 500,
+      msg: 'Error al iniciar sesión, de persistir el error contacte al administrador',
+      error
+    });
+  }
+};
+
+const loginAdmin = async (req, res) => {
+
+  const { error, value } = userSchemaLogin.validate(req.body);
+
+  const { email, password } = value;
+
+  const [user] = await pool.query('SELECT * FROM usuarios WHERE status = 1 AND role = 0 AND email = ?', [email]);
+
+  console.log(email);
+
+  if (user.length === 0) {
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      msg: 'Los datos ingresados son incorrectos',
+    });
+  }
+
+  try {
+    // Verificar la contraseña
+    const isPasswordValid = await bcrypt.compare(password, user[0].password);
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        msg: 'Los datos ingresados son incorrectos.',
+      });
+    }
+
+    // Generar el token
+    const token = await generarJWT(user[0].uuid, user[0].name, user[0].last_name, user[0].email);
+
+    return res.status(200).json({
+      success: true,
+      status: 200,
+      msg: 'Inicio de sesión exitoso',
+      user: {
+        id: user[0].id,
+        name: user[0].name,
+        last_name: user[0].last_name,
+        email: user[0].email,
+      },
+      uuid: user[0].uuid,
       token: token,
     });
   } catch (e) {
@@ -121,9 +175,9 @@ const registerUser = async (req, res) => {
   const avatar = 'src/img/avatar.svg'
 
   try {
-    await pool.query('INSERT INTO usuarios (uuid, name, last_name, email, password, avatar) VALUES (?, ?, ?, ?, ?, ?)', 
+    await pool.query('INSERT INTO usuarios (uuid, name, last_name, email, password, avatar) VALUES (?, ?, ?, ?, ?, ?)',
       [uuid, value.name, value.last_name, value.email, hashedPassword, avatar]);
-  
+
     return res.status(201).json({
       success: true,
       status: 201,
@@ -131,7 +185,7 @@ const registerUser = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-  
+
     return res.status(500).json({
       success: false,
       status: 500,
@@ -139,7 +193,7 @@ const registerUser = async (req, res) => {
     });
   }
 
-  
+
 }
 
 // Listar los usuarios
@@ -191,6 +245,9 @@ const updateUser = async (req, res) => {
   try {
     // Verificar si el usuario existe por email
     const [user] = await pool.query('SELECT * FROM usuarios WHERE uuid = ?', [uuid]);
+
+    console.log(user)
+
     if (user.length === 0) {
       return res.status(404).json({
         success: false,
@@ -200,8 +257,10 @@ const updateUser = async (req, res) => {
     }
 
     // Actualizar el nombre y el correo electrónico del usuario
-    await pool.query('UPDATE usuarios SET name = ?, last_name = ?, email=?, password=? WHERE uuid = ?', 
-    [value.name, value.last_name, value.name, value.password, uuid]);
+    await pool.query('UPDATE usuarios SET name = ?, last_name = ?, email=? WHERE uuid = ?',
+      [value.name, value.last_name, value.email, uuid]);
+
+    console.log(value.name, value.last_name, value.emil)
 
     return res.status(201).json({
       success: true,
@@ -214,7 +273,7 @@ const updateUser = async (req, res) => {
       success: false,
       status: 500,
       message: 'Error al actualizar el usuario',
-      error:e,
+      error: e,
     });
   }
 };
@@ -267,6 +326,7 @@ const activarUser = async (req, res) => {
 
 module.exports = {
   loginUser,
+  loginAdmin,
   registerUser,
   listUser,
   updateUser,

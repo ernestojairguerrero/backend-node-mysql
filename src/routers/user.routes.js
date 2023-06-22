@@ -1,21 +1,23 @@
 const { Router } = require('express');
 
-const { listUser, loginUser, registerUser, desactivarUser, updateUser, activarUser} = require('../controllers/user.controlle');
+const { listUser, loginUser, registerUser, desactivarUser, updateUser, activarUser, loginAdmin} = require('../controllers/user.controlle');
 const { validarJWT } = require('../middlewares/validator.jwt');
 
 const router = Router();
 
-router.post('/login', loginUser);
+router.post('/loginUser', loginUser);
+
+router.post('/login-admin', loginAdmin);
 //validarJWT
-router.post('/add', validarJWT, registerUser);
+router.post('/add', registerUser);
 
-router.get('/list', validarJWT, listUser);
+router.get('/list', listUser);
 
-router.put('/update', validarJWT, updateUser);
+router.put('/update', updateUser);
 
-router.put('/desactivar', validarJWT, desactivarUser);
+router.put('/desactivar', desactivarUser);
 
-router.put('/activar', validarJWT, activarUser);
+router.put('/activar', activarUser);
 
 
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-06-2023 a las 18:12:55
+-- Tiempo de generación: 22-06-2023 a las 04:45:00
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `bd_posts`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `avatar`
+--
+
+CREATE TABLE `avatar` (
+  `uuid` varchar(150) NOT NULL,
+  `urlAvatar` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -41,9 +52,15 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`id`, `uuid`, `name`, `description`, `date`, `status`) VALUES
-(1, '5a7a6fb8-c281-4c57-99d6-b546dbbcd20f', 'Lorem', 'Lorem ipsom', '2023-06-21 03:10:16', 1),
-(2, 'c83b141f-fa8d-4a35-93b9-ce023d64b93d', 'Lorem 2', 'Lorem ipsom 2', '2023-06-21 03:10:16', 0),
-(3, 'c83b141f-fa8d-4a35-93b9-ce023d64b93d', 'Lorem 3', 'Lorem ipsom 3', '2023-06-21 03:10:16', 0);
+(4, 'f699ea5f-c9d9-42a4-8294-51f32504eed2', 'Lorem 3', 'Lorem ipsom 3', '2023-06-21 21:30:45', 1),
+(5, 'f699ea5f-c9d9-42a4-8294-51f32504eed2', 'Lorem 4', 'Lorem ipsom 4', '2023-06-21 21:30:51', 1),
+(8, 'f699ea5f-c9d9-42a4-8294-51f32504eed2', 'Consequat Voluptas ', 'Ex voluptatum rerum lorem iusto quo consequuntur reprehenderit elit blanditiis', '2023-06-21 21:34:20', 0),
+(9, 'f699ea5f-c9d9-42a4-8294-51f32504eed2', 'Consequat Voluptas ', 'Ex voluptatum rerum lorem iusto quo consequuntur reprehenderit elit blanditiis', '2023-06-21 21:34:31', 0),
+(10, 'f699ea5f-c9d9-42a4-8294-51f32504eed2', 'Consequat Voluptas ', 'Ex voluptatum rerum lorem iusto quo consequuntur reprehenderit elit blanditiis', '2023-06-21 21:34:37', 0),
+(11, 'f699ea5f-c9d9-42a4-8294-51f32504eed2', 'Ut ab neque consequa', 'Minima voluptatum qui officiis mollit nobis est commodi ea quia consequatur aut consequat Qui incididunt veniam', '2023-06-21 21:38:15', 1),
+(12, 'f699ea5f-c9d9-42a4-8294-51f32504eed2', 'Duis ipsam corporis ', 'Eveniet vero sint quo officiis Nam dolore alias officia incidunt rerum voluptatem magnam ad', '2023-06-21 21:38:43', 1),
+(13, 'f699ea5f-c9d9-42a4-8294-51f32504eed2', 'Accusantium necessit', 'Nostrum voluptas expedita commodo quia assumenda quia odio voluptatibus et aliquip consequatur sint vero impedit aperiam placeat proident vitae', '2023-06-21 21:38:59', 0),
+(14, 'f699ea5f-c9d9-42a4-8294-51f32504eed2', 'dgsdretr', 'dgaerrertret', '2023-06-21 21:39:18', 1);
 
 -- --------------------------------------------------------
 
@@ -68,10 +85,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `uuid`, `name`, `last_name`, `email`, `password`, `avatar`, `status`, `role`) VALUES
-(3, '5a7a6fb8-c281-4c57-99d6-b546dbbcd20f', '', 'admin8956258525252533', '', '', NULL, 1, 1),
-(4, 'c83b141f-fa8d-4a35-93b9-ce023d64b93d', 'root', 'roots', 'root@gmail.com', '$2b$10$mLeSZmF1GlK3aW8PQn8HkOSu7nMlMIIiuhi5y1nV3wWrKl/sLWxCq', 'JOJOJO', 0, 1),
-(5, '46a1429f-3d0d-4e09-8569-8cb151bb06e0', 'root', 'roots', 'root002@gmail.com', '$2b$10$GUShb0Zbm2XE53Dx.j.VteWiXo2yU8gnZ79Ef5d.JgnsSScdHVQmq', '../img/avatar.svg', 1, 1),
-(6, '3ca914d7-f0f8-48a1-97af-98c045f05017', 'root', 'roots', 'root111@gmail.com', '$2b$10$zW6t1ZefDqODX1VJv3M07ujoEKnPNANQMhZz6d8Jm8JmDtM5NqP3O', 'src/img/avatar.svg', 0, 1);
+(1, 'ea9d313e-6fae-48e0-ac71-bd938716c900', 'root', 'roots', 'root@gmail.com', '$2b$10$kpcfAjiXLHu6fVRjEseKqOwbKl7G5Slj7SOGZnwh0raibiC5YJKzq', 'src/img/avatar.svg', 1, 0),
+(2, 'f699ea5f-c9d9-42a4-8294-51f32504eed2', 'user', 'users', 'user@gmail.com', '$2b$10$vixCRCcLEb9PnHL/GdVx1ezp2dFazaLmAHfS03DTymKDryk8izFHC', 'src/img/avatar.svg', 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -97,13 +112,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

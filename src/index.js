@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/user', userRouter);
+app.use('/api/avatar', postRouter);
 app.use('/api/post', postRouter);
 
 app.listen(3000, () => {
